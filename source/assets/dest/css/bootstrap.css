@@ -2819,7 +2819,7 @@ fieldset[disabled] .btn-default.active {
 .btn-primary:active,
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
-  color: #fff;
+  color: rgb(56, 56, 56);
   background-color: #3071a9;
   border-color: #285e8e;
 }
@@ -2860,7 +2860,7 @@ fieldset[disabled] .btn-primary.active {
 .btn-success:active,
 .btn-success.active,
 .open > .dropdown-toggle.btn-success {
-  color: #fff;
+  color: rgb(63, 63, 63);
   background-color: #449d44;
   border-color: #398439;
 }
@@ -2901,7 +2901,7 @@ fieldset[disabled] .btn-success.active {
 .btn-info:active,
 .btn-info.active,
 .open > .dropdown-toggle.btn-info {
-  color: #fff;
+  color: rgb(80, 80, 80);
   background-color: #31b0d5;
   border-color: #269abc;
 }

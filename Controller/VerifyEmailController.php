@@ -4,12 +4,12 @@ session_start();
 include 'config.php';
 if (isset($_GET['token'])) {
     $token = $_GET['token'];
-    $sql = "SELECT * FROM users WHERE token='$token' LIMIT 1";
+    $sql = "SELECT * FROM customers WHERE token='$token' LIMIT 1";
     $result = $conn->query($sql);
 
     if (mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
-        $query = "UPDATE users SET verified=1 WHERE token='$token'";
+        $query = "UPDATE customers SET verified=1 WHERE token='$token'";
         $result = $conn->query($query);
         if ($result) {
             $_SESSION['id'] = $user['id'];
