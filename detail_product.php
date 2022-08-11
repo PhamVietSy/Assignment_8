@@ -105,56 +105,16 @@
 		</div> <!-- .header-bottom -->
 	</div> <!-- #header -->
 	</div>
-	<div class="container">
-		<div id="content" class="space-top-none">
-			<div class="main-content">
-				<div class="space60">&nbsp;</div>
-				<div class="row">
+	<div class="row">
 					<div class="col-sm-12">
 						<div class="space50">&nbsp;</div>
 
-						<div class="beta-products-list">
-							<h4>Sản phẩm </h4>
-							<div class="beta-products-details">
-								
-								<div class="clearfix"></div>
-							</div>
-							<div class="row">
-								<?php  foreach($query as $sp): ?>
-								<div class="col-sm-3">
-									<div class="single-item">
-										<div class="single-item-header">
-											<a href="chitietsp.php?id=<?php echo  $sp["pro_id"] ?>"><img src="source/image/<?=$sp['image'] ?>" alt="" height="250px"></a>
-										</div>
-										<div class="single-item-body">
-											<p class="single-item-title" style="height: 40px"><?=$sp['pro_name'] ?></p>
-											<p class="single-item-price" style="font-size: 17px; height: 30px">
-												<span  class="flash"><?=number_format($sp['price'],0)?> VNĐ</span>
-											</p>
-										</div>
-										<div class="single-item-caption">
-										<?php if($sp['quality']>0) {?>
-											<a class="add-to-cart pull-left" href="detail_product.php?id=<?php echo  $sp["pro_id"] ?>"><i class="fa fa-shopping-cart"></i></a>
-											<?php } else { ?>
-												<span class="btn btn-danger">Hết hàng</span>
-												<?php } ?>	
-											<a class="beta-btn primary" href="detail_product.php?id=<?php echo  $sp["pro_id"] ?>">Chi tiết <i class="fa fa-chevron-right"></i></a>
-											<div class="clearfix"></div>
-										</div>
-									</div>
-								</div>
-								<?php endforeach ?>
-							</div>
-							<div class="row"></div>
-						</div> <!-- .beta-products-list -->
-					</div>
-				</div> <!-- end section with sidebar and main content -->
+						
+                               <?php detail_product(); ?>
 
-
-			</div> <!-- .main-content -->
-		</div> <!-- #content -->
-
-	</div>
+                                <div class="space40">&nbsp;</div>
+                                
+					<div class="card">
 	<div class="copyright">
 		<div class="container">
 			<p class="pull-left">Privacy policy. (&copy;) 2022</p>
