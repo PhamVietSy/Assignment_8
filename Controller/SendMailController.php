@@ -7,6 +7,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+
+
  
 //Create an instance; passing `true` enables exceptions
 // Gửi email khi đăng ký thành công
@@ -19,7 +21,7 @@ function sendEmail($email, $token) {
         $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
         $mail->Username   = 'phamvietsy2000@gmail.com';                     //SMTP username
-        $mail->Password   = 'zgsqnrjlrmndxbhd';                               //SMTP password
+        $mail->Password   = 'wbttmtjrdkeupmih';                               //SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
         $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
@@ -42,4 +44,6 @@ function sendEmail($email, $token) {
             print_r($e);
             echo '</pre>';die;
         }
-}
+    }
+
+?>

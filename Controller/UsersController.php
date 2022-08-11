@@ -2,6 +2,7 @@
 // xử lí đăng kí
 session_start();
 include 'config.php';
+include 'SendmailController.php';
     $name ='';
     $email ='';
     $fullname ='';
@@ -84,7 +85,8 @@ if( isset($_POST["submit"]) ){
             $_SESSION['email'] = $email;
             sendEmail($email,$token);
             $_SESSION['verified'] = $user['verified'];
-            header("location:./login.php");
+            header("location:./register.php");
+            $errors['email']= "Đã gửi mail xác nhận";
             
         }
     }
@@ -117,48 +119,49 @@ if( isset($_POST["submit"]) ){
       $query = "SELECT * FROM customers WHERE username=? OR email=?  LIMIT 1";
       $stmt = $conn->prepare($query);
       $stmt->bind_param('ss', $username, $password);
-  
       if ($stmt->execute()) {
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
-        if ($user['role'] === 1) {
-          if (password_verify($password, $user['password'])) { // if password matches
-            $stmt->close();
-  
-            $_SESSION['id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['fullname'] = $user['fullname'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['verified'] = $user['verified'];
-            $_SESSION['message'] = 'You are logged in!';
-            $_SESSION['type'] = 'alert-success';
-            $_SESSION['admin'] = $user['role'];
-            header("location:./admin.php");
-            exit(0);
-          } else { // if password does not match
-            $errors['login_fail'] = "Wrong username / password";
-          }
-        } else {
-          if (password_verify($password, $user['password'])) { // if password matches
-            $stmt->close();
-  
-            $_SESSION['id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['fullname'] = $user['fullname'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['verified'] = $user['verified'];
-            $_SESSION['message'] = 'You are logged in!';
-            $_SESSION['type'] = 'alert-success';
-            header("location:./home.php");
-            exit(0);
-          } else { // if password does not match
-            $errors['login_fail'] = "Wrong username / password";
-          }
+        if ($user['verified']===0) {
+        $errors['verified'] = 'Vui lòng kích hoạt email';
         }
-      } else {
-        $_SESSION['message'] = "Database error. Login failed!";
-        $_SESSION['type'] = "alert-danger";
-      }
+        else{
+            if ($user['role'] === 1) {
+                 if (password_verify($password, $user['password'])) { // if password matches
+                    $stmt->close();
+        
+                    $_SESSION['id'] = $user['id'];
+                    $_SESSION['username'] = $user['username'];
+                    $_SESSION['fullname'] = $user['fullname'];
+                    $_SESSION['email'] = $user['email'];
+                    $_SESSION['verified'] = $user['verified'];
+                    $_SESSION['message'] = 'You are logged in!';
+                    $_SESSION['type'] = 'alert-success';
+                    $_SESSION['admin'] = $user['role'];
+                    header("location:./admin.php");
+                    exit(0);
+                } else { // if password does not match
+                    $errors['login_fail'] = "Wrong username / password";
+                }
+            } else {
+                if (password_verify($password, $user['password'])) { // if password matches
+                    $stmt->close();
+        
+                    $_SESSION['id'] = $user['id'];
+                    $_SESSION['username'] = $user['username'];
+                    $_SESSION['fullname'] = $user['fullname'];
+                    $_SESSION['email'] = $user['email'];
+                    $_SESSION['verified'] = $user['verified'];
+                    $_SESSION['message'] = 'You are logged in!';
+                    $_SESSION['type'] = 'alert-success';
+                    header("location:./home.php");
+                    exit(0);
+                } else { // if password does not match
+                    $errors['login_fail'] = "Wrong username / password";
+                }
+            }
+        } 
+     }
     }
   }
 
