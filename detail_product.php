@@ -23,8 +23,8 @@
     <script src="source/assets/dest/js/lumino.glyphs.js"></script>
 </head>
 <body>
-    <?php 	session_start() ;
-			include './Controller/ProductsController.php';
+    <?php 	
+			include './Controller/CartController.php';
 	?>
  	<div id="header">
 		<div class="header-top">
@@ -112,15 +112,18 @@
 						
                                <?php detail_product(); ?>
 
-                                <div class="space40">&nbsp;</div>
+                        <div class="space40">&nbsp;</div>
                                 
 					<div class="card">
+					</div>
+	</div>
 	<div class="copyright">
 		<div class="container">
 			<p class="pull-left">Privacy policy. (&copy;) 2022</p>
 			<div class="clearfix"></div>
 		</div> <!-- .container -->
 	</div> <!-- .copyright -->
+
 
 	<!-- include js files -->
 	<script src="source/assets/dest/js/jquery.js"></script>

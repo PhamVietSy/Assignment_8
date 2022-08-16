@@ -26,80 +26,120 @@
    while($rows = mysqli_fetch_array($query2)){
         
     $pro2[]= $rows['fullname'];
-}  while($rows = mysqli_fetch_array($query3)){
+    }  
+    while($rows = mysqli_fetch_array($query3)){
         
     $pro3[]= $rows['content'];
-} 
+    } 
     count($pro3);
     count($pro);
     count($pro1);
     count($pro2);
- 
-    function detail_product(){
-        $conn = mysqli_connect("localhost", "root", "", "users");
-      if(isset($_GET['id'])){
-          $id = $_GET['id'];
-          $query = " SELECT * FROM products WHERE pro_id=$id ";
-          $statement = $conn ->query($query);
-  
-         
-        
-          $output = '';
-          foreach($statement as $sp)
-          {
-          $output .= '
-          <div class="row" style="height: 340px ;">
-          <div class="col-sm-4">
-             <?php  foreach($sql_pro as $sp): ?>
-              <img src="source/image/'.$sp['image'].'" alt="">
-          </div>
-          <div class="col-sm-8">
-              <div class="single-item-body">
-                  <p class="single-item-title"><h2>'.$sp['pro_name'] .'</h2></p>
-             </br>
-                     <p class="single-item-price">
-                      <label >Tồn kho :</label>'.$sp['quality'] .'
-                  </p>
-             </br>
-                  <p class="single-item-price">
-                      <span class="flash-sale">'.number_format($sp['price'],0).' VNĐ</span>       
-                  </p>
-              </div>
+   
 
-              <div class="clearfix"></div>
-              <div class="space20">&nbsp;</div>
-              <div class="single-item-options">
-            
-              <input type="number" size = "4"  name="quantity" id="quantity'.$sp["pro_id"].'" class="form-control" value="1" style="max-width: 100px ; margin-bottom: 20px;" />
-              <div class="clearfix"></div>
-              
-                 </div>
-                  <div class="single-item-options">
-                <a class="add-to-cart" href="addcart.php?id='.$sp["pro_id"] .'"><i class="fa fa-shopping-cart"></i></a>
-                  
-              </div>
-              
-              
-              
+
+    
+   session_start();
+   
+   $conn = mysqli_connect("localhost", "root", "", "users");
+   
+       $query = " SELECT * FROM products  ";
+       $statement = $conn ->query($query);
+   
+    $output = '';
+    foreach($statement as $row)
+    {
+    $output .= '
+    <div class="col-md-3" style="margin-top:12px;">  
+                <div class=" p-5 shadow p-3 mb-5 bg-body rounded-3 overflow-hidden ">
+                    <a href="./cart.php?id='.$row["id"].'"><img src="../../../Assets/img/'.$row["image"].'" class="img-thumbnail w-100%" /></a>
+                    <div class ="text-center">
+                    <h4 class="fs-5">'.$row["name"].'</h4>
+                    <h4 class="fs-5">$ '.$row["price"].'</h4>
+                    <input type="hidden" name="quantity" id="quantity'.$row["id"].'" class="form-control" value="1" />
+                    <input type="hidden" name="hidden_name" id="name'.$row["id"].'" value="'.$row["name"].'" />
+                    <input type="hidden" name="hidden_price" id="price'.$row["id"].'" value="'.$row["price"].'" />
+                    <input type="button" name="add_to_cart" id="'.$row["id"].'" style="margin-top:5px;" class="btn btn-success form-control add_to_cart" value="Add to Cart" />
+                    </div>
+                
                 </div>
             </div>
-            <div class="woocommerce-tabs">
-                                    <ul class="tabs">
-                                        <li><a href="#tab-description">Mô tả</a></li>
-                                        
-                                    </ul>
-
-                                    <div class="panel" id="tab-description">
-                                        <p>'.$sp['description'].'</p>
-                                    </div>
-                </div>
-
-          ' ;
-          }
-          echo $output;
-          
-          
-      } 
+    ';
     }
-       
+    echo $output;
+    }
+   
+    // Add product vào giỏ hàng
+   
+    if(isset($_POST["action"]))
+    {
+     if($_POST["action"] == 'add')
+     {
+      if(isset($_SESSION["shopping_cart"]))
+      {
+       $is_available = 0;
+       foreach($_SESSION['shopping_cart'] as $keys => $values)
+       {
+        if($_SESSION['shopping_cart'][$keys]['product_id'] == $_POST['product_id'])
+        {
+         $is_available++;
+         $_SESSION['shopping_cart'][$keys]['product_quantity'] = $_SESSION['shopping_cart'][$keys]['product_quantity'] + $_POST['product_quantity'];
+        }
+       }
+    
+       if($is_available == 0)
+       {
+        $item_array = array(
+         'product_id' => $_POST['product_id'], 
+         'product_name' => $_POST['product_name'],
+         'product_price' => $_POST['product_price'],
+         'product_quantity' => $_POST['product_quantity']
+        );
+        $_SESSION['shopping_cart'][] = $item_array;
+       }
+      }
+      else
+      {
+       $item_array = array(
+        'product_id'  => $_POST['product_id'],
+        'product_name'  => $_POST['product_name'],
+        'product_price'  => $_POST['product_price'],
+        'product_quantity' => $_POST['product_quantity']
+       );
+    
+       $_SESSION['shopping_cart'][] = $item_array;
+      }
+     }
+    //  Update quantity product ở giỏ hàng
+     if($_POST['action'] == 'update')
+     {
+      foreach($_SESSION['shopping_cart'] as $keys => $values)
+      {
+       if($values['product_id'] == $_POST['product_id'])
+       {
+        $is_available++;
+         $_SESSION['shopping_cart'][$keys]['product_quantity'] = $_SESSION['shopping_cart'][$keys]['product_quantity'] = $_POST['product_quantity'];
+        
+       }
+      }
+     }
+    // Remove product theo id 
+     if($_POST['action'] == 'remove')
+     {
+      foreach($_SESSION['shopping_cart'] as $keys => $values)
+      {
+       if($values['product_id'] == $_POST['product_id'])
+       {
+        unset($_SESSION['shopping_cart'][$keys]);
+       }
+      }
+     }
+    //  clear all product
+     if($_POST['action'] == 'empty')
+     {
+      unset($_SESSION['shopping_cart']);
+     }
+    }
+    
+
 ?>
