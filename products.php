@@ -81,7 +81,7 @@
                                         <img style="width: 100px; height: 130px;" src="source/image/<?php echo $rows['image']; ?>" alt="">
                                         </th>
                                     <th><?=number_format($rows['price'],0)?> VNĐ</th>
-                                    <th><?php echo $rows['quality']; ?></th>
+                                    <th><?php echo $rows['quantity']; ?></th>
                                     <th><?php echo $rows['description']; ?></th>
                                     <th><?php echo $rows['brand_name']; ?></th>
                                     <th>

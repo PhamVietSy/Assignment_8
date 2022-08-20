@@ -131,7 +131,7 @@ function detail_product(){
               <p class="single-item-title"><h2>'.$sp['pro_name'] .'</h2></p>
          </br>
                  <p class="single-item-price">
-                  <label >Tồn kho :</label>'.$sp['quality'] .'
+                  <label >Tồn kho :</label>'.$sp['quantity'] .'
               </p>
          </br>
               <p class="single-item-price">
@@ -143,7 +143,7 @@ function detail_product(){
           <div class="space20">&nbsp;</div>
           <div class="single-item-options">
         
-          <input type="number" size = "4"  name="quality" id="quality'.$sp["pro_id"].'" class="form-control" value="1" style="max-width: 100px ; margin-bottom: 20px;" />
+          <input type="number" size = "4"  name="quantity" id="quantity'.$sp["pro_id"].'" class="form-control" value="1" style="max-width: 100px ; margin-bottom: 20px;" />
           <div class="clearfix"></div>
           
              </div>

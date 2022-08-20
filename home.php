@@ -21,10 +21,15 @@
     <link href="source/assets/dest/css/styles.css" rel="stylesheet">
     <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
     <script src="source/assets/dest/js/lumino.glyphs.js"></script>
+	
+  
+  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <?php 	session_start() ;
+    <?php 	
 			include './Controller/ProductsController.php';
+			
 	?>
  	<div id="header">
 		<div class="header-top">
@@ -62,6 +67,7 @@
 						<form role="search" method="POST" id="searchform" action="{{route('search')}}">
 					        <input type="text" value="" name="text_search" id="s" placeholder="Nhập từ khóa..." />
 					        <button class="fa fa-search" type="submit" name="search" id="searchsubmit"></button>
+							<!-- <div type="button" name="search"  class="fa fa-search"  id="searchsubmit" ></div> -->
 						</form>
 					</div>
 
@@ -120,32 +126,16 @@
 								<div class="clearfix"></div>
 							</div>
 							<div class="row">
-								<?php  foreach($query as $sp): ?>
-								<div class="col-sm-3">
-									<div class="single-item">
-										<div class="single-item-header">
-											<a href="chitietsp.php?id=<?php echo  $sp["pro_id"] ?>"><img src="source/image/<?=$sp['image'] ?>" alt="" height="250px"></a>
-										</div>
-										<div class="single-item-body">
-											<p class="single-item-title" style="height: 40px"><?=$sp['pro_name'] ?></p>
-											<p class="single-item-price" style="font-size: 17px; height: 30px">
-												<span  class="flash"><?=number_format($sp['price'],0)?> VNĐ</span>
-											</p>
-										</div>
-										<div class="single-item-caption">
-										<?php if($sp['quality']>0) {?>
-											<a class="add-to-cart pull-left" href="detail_product.php?id=<?php echo  $sp["pro_id"] ?>"><i class="fa fa-shopping-cart"></i></a>
-											<?php } else { ?>
-												<span class="btn btn-danger">Hết hàng</span>
-												<?php } ?>	
-											<a class="beta-btn primary" href="detail_product.php?id=<?php echo  $sp["pro_id"] ?>">Chi tiết <i class="fa fa-chevron-right"></i></a>
-											<div class="clearfix"></div>
-										</div>
-									</div>
-								</div>
-								<?php endforeach ?>
+								<?php 
+								
+								include './Controller/Homeproducts.php';
+								
+								?>
+								
 							</div>
-							<div class="row"></div>
+							<div class="row">
+						
+							</div>
 						</div> <!-- .beta-products-list -->
 					</div>
 				</div> <!-- end section with sidebar and main content -->
@@ -177,6 +167,7 @@
 	<script src="source/assets/dest/js/wow.min.js"></script>
 	<!--customjs-->
 	<script src="source/assets/dest/js/custom2.js"></script>
+	
 	<script>
 	$(document).ready(function($) {    
 		$(window).scroll(function(){

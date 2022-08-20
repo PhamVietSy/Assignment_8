@@ -19,12 +19,13 @@
     <link href="source/assets/dest/css/bootstrap.min.css" rel="stylesheet">
     <link href="source/assets/dest/css/datepicker3.css" rel="stylesheet">
     <link href="source/assets/dest/css/styles.css" rel="stylesheet">
-    <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
     <script src="source/assets/dest/js/lumino.glyphs.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <?php 	
 			include './Controller/CartController.php';
+			
 	?>
  	<div id="header">
 		<div class="header-top">
@@ -138,6 +139,8 @@
 	<script src="source/assets/dest/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
 	<script src="source/assets/dest/js/waypoints.min.js"></script>
 	<script src="source/assets/dest/js/wow.min.js"></script>
+	<script src="source/js/index.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 	<!--customjs-->
 	<script src="source/assets/dest/js/custom2.js"></script>
 	<script>
