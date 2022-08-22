@@ -1,113 +1,5 @@
 <?php
     session_start();
-    // load các sản phẩm order
-     function order_detail (){
-        $total_price = 0;
-        
-        $item_details = '';
-        
-        $order_details = '
-        <div class="table-responsive" id="order_table">
-         <table class="table  table-striped table-hover"> 
-         <tr>  
-                       
-                        <th> Name</th> 
-                        <th>Quantity</th>  
-                        <th>Price</th>  
-                        <th>Total</th>  
-                        <th>Action</th>  
-            </tr>
-        ';
-        
-        if(!empty($_SESSION["shopping_cart"]))
-        {
-         foreach($_SESSION["shopping_cart"] as $keys => $values)
-         {
-          $order_details .= '
-          <tr>
-          
-           <td>'.$values["product_name"].'</td>
-           <td>  <input type="number" name="quantity" id="quantity'.$values["product_id"].'" class="form-control" value="1" style="max-width: 4rem" /></td>
-           <td >$ '.$values["product_price"].'</td>
-           <td >$ '.number_format($values["product_quantity"] * $values["product_price"], 2).'</td>
-           <td><button name="delete" class="btn btn-danger btn-xs delete" id="'. $values["product_id"].'"><i class="fa-solid fa-trash-can"></i></button></td>
-          </tr>
-          ';
-          $total_price = $total_price + ($values["product_quantity"] * $values["product_price"]);
-        
-          $item_details .= $values["product_name"] . ', ';
-         }
-         $item_details = substr($item_details, 0, -2);
-         $order_details .= '
-         <tr>  
-                <td colspan="3" align="right">Total :</td>  
-                <td >$ '.number_format($total_price, 2).'</td>
-                <td>   <a href="#" class="btn btn-warning" id="clear_cart">
-                <span class="glyphicon glyphicon-trash"></span> Clear
-               </a></td>
-            </tr>
-         ';
-        }
-        $order_details .= '</table>';
-        echo $order_details;
-     
-    }
-    // Tính tổng tiền của product
-    function totail (){
-    
-   $total_price = 0;
-         
-   $item_details = '';
-
-   $order_details = '
-   <div class="table-responsive" id="order_table">
-   <table class="table  table-striped table-hover"> 
-   <tr>  
-                  <th> STT</th>
-                  <th> Name</th> 
-                  <th>Quantity</th>  
-                  <th>Price</th>  
-                  <th>Total</th>  
-                  <th>Action</th>  
-      </tr>
-   ';
-      $stt =0;
-   if(!empty($_SESSION["shopping_cart"]))
-   {
-   foreach($_SESSION["shopping_cart"] as $keys => $values)
-   {
-      $stt +=1;
-      $order_details .= '
-      <tr>
-         
-         <td >'.$stt.' </td>
-         <td>'.$values["product_name"].' </td>
-         <td>  <input data-product-id ="'.$values["product_id"].'" type="number" name="quantity" class="form-control quantity  " value="'.$values["product_quantity"].'" style="max-width: 4rem" /></td>
-         <td >$ '.$values["product_price"].'</td>
-         <td >$ '.number_format($values["product_quantity"] * $values["product_price"], 2).'</td>
-         <td><button name="delete" class="btn btn-danger btn-xs delete" id="'. $values["product_id"].'"><i class="fa-solid fa-trash-can"></i></button></td>
-      </tr>
-      ';
-      $total_price = $total_price + ($values["product_quantity"] * $values["product_price"]);
-
-      $item_details .= $values["product_name"] . ', ';
-      }
-      $item_details = substr($item_details, 0, -2);
-      $order_details .= '
-      <tr>  
-            <td colspan="4" align="right">Total :</td>  
-            <td class="total" > $ '.number_format($total_price, 2).'</td>
-            <td>   <a href="#" class="btn btn-warning" id="clear_cart">
-            <span class="glyphicon glyphicon-trash"></span> Clear
-            </a></td>
-         </tr>
-      ';
-   }
-    $order_details .= '</table>';
-        echo $total_price;
-     
-    }
-// load chi tiết sản phẩm
 function detail_product(){
     $conn = mysqli_connect("localhost", "root", "", "users");
   if(isset($_GET['id'])){
@@ -174,5 +66,18 @@ function detail_product(){
       
   } 
 }
+
+        
+        $id= $_GET['id'];
+        if (isset($_SESSION['cart'][$id]))
+            $sl = $_SESSION['cart'][$id]+1;
+        else
+            $sl = 1;
+
+        $_SESSION['cart'][$id]= $sl;
+      
+        
+
+?>
 
     

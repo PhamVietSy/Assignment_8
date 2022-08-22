@@ -1,4 +1,3 @@
-    
 
 <!doctype html>
 <html lang="en">
@@ -6,9 +5,6 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>WEB BÁN HÀNG </title>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 	<link href='http://fonts.googleapis.com/css?family=Dosis:300,400' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
@@ -22,16 +18,12 @@
     <link href="source/assets/dest/css/bootstrap.min.css" rel="stylesheet">
     <link href="source/assets/dest/css/datepicker3.css" rel="stylesheet">
     <link href="source/assets/dest/css/styles.css" rel="stylesheet">
-    <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
     <script src="source/assets/dest/js/lumino.glyphs.js"></script>
-	
-  
-  
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <?php 	
-			include './Controller/ProductsController.php';
+			session_start();
 			
 	?>
  	<div id="header">
@@ -70,14 +62,13 @@
 						<form role="search" method="POST" id="searchform" action="{{route('search')}}">
 					        <input type="text" value="" name="text_search" id="s" placeholder="Nhập từ khóa..." />
 					        <button class="fa fa-search" type="submit" name="search" id="searchsubmit"></button>
-							<!-- <div type="button" name="search"  class="fa fa-search"  id="searchsubmit" ></div> -->
 						</form>
 					</div>
 
 					<div class="beta-comp">
 						
-						<div class="cart" >
-							<a href="cart.php"><i class="fa fa-shopping-cart"></i></a> 
+						<div class="cart">
+							<div class="beta-select"><i class="fa fa-shopping-cart"></i> 
                         </div>
 							
 								
@@ -87,6 +78,7 @@
 				<div class="clearfix"></div>
 			</div> <!-- .container -->
 		</div> <!-- .header-body -->
+	
 		<div class="header-bottom" style="background-color: #0277b8;">
 			<div class="container">
 				<a class="visible-xs beta-menu-toggle pull-right" href="#"><span class='beta-menu-toggle-text'>Menu</span> <i class="fa fa-bars"></i></a>
@@ -120,49 +112,98 @@
 				<div class="space60">&nbsp;</div>
 				<div class="row">
 					<div class="col-sm-12">
-						<div class="space50">&nbsp;</div>
-
-						<div class="beta-products-list">
-							<h4>Sản phẩm </h4>
-							<div class="beta-products-details">
-								
-								<div class="clearfix"></div>
-							</div>
-							<div class="row">
-								<?php 
-								
-								include './Controller/Homeproducts.php';
-								
-								?>
-								<?php  foreach($statement as $sp): ?>
-								<div class="col-sm-3">
-									<div class="single-item">
-										<div class="single-item-header">
-											<a href="chitietsp.php?id=<?php echo  $sp["pro_id"] ?>"><img src="source/image/<?=$sp['image'] ?>" alt="" height="250px"></a>
-										</div>
-										<div class="single-item-body">
-											<p class="single-item-title" style="height: 40px"><?=$sp['pro_name'] ?></p>
-											<p class="single-item-price" style="font-size: 17px; height: 30px">
-												<span  class="flash"><?=number_format($sp['price'],0)?> VNĐ</span>
-											</p>
-										</div>
-										<div class="single-item-caption">
-										<?php if($sp['quantity']>0) {?>
-											<a class="add-to-cart" href="./Controller/CartController.php?id=<?php echo  $sp["pro_id"] ?>" ><i class="fa fa-shopping-cart"></i></a>
-											<?php } else { ?>
-												<span class="btn btn-danger">Hết hàng</span>
-												<?php } ?>	
-											<a class="beta-btn primary" style="margin-bottom: 26px ; "  href="detail_product.php?id=<?php echo  $sp["pro_id"] ?>">Chi tiết <i class="fa fa-chevron-right"></i></a>
-											<div class="clearfix"></div>
-										</div>
-									</div>
-								</div>
-								<?php endforeach ?>
-							</div>
-							<div class="row">
 						
-							</div>
-						</div> <!-- .beta-products-list -->
+					<?php
+
+if (isset($_POST['submit'])) 
+{
+	foreach($_POST['sl'] as $key => $value)
+	{
+		if ($value== 0)
+			unset($_SESSION['cart']);
+		else
+			$_SESSION['cart'][$key] = $value;
+	}
+}
+		if (isset($_SESSION['cart'])) {
+			foreach ($_SESSION['cart'] as $key => $value) 
+			{
+				$item[] = $key	;
+			}
+			$str= implode(",", $item);
+		}
+		
+		
+  ?>
+
+	
+	
+  
+<?php if(!isset($_SESSION['cart'])) { ?>
+	<h2>Giỏ hàng trống</h2>
+
+<?php }else{?>
+	
+	<div class="container" style="width: 40% ;margin: 40px auto">
+   <h1>Giỏ hàng</h1>
+   <form action="" method="POST">
+   	   <table class="table table-border">
+      <tr>
+        <th>Hình ảnh </th>
+        <th>Tên Sản phẩm</th>
+        <th>Giá tiền</th>
+         <th>Số lượng</th>
+         <th>Thành tiền</th>
+         
+      </tr>
+  
+  
+   	<?php
+   	if (isset($_SESSION['cart'])) {
+   		
+   	$sql = "SELECT * FROM products WHERE pro_id in (".$str.")";
+
+ 
+	   $conn = mysqli_connect("localhost", "root", "", "users");
+      $kq = mysqli_query($conn, $sql);
+      $total=0;
+      while ($row = mysqli_fetch_array($kq)) {
+      
+      		 
+        echo "<tr>";
+		echo '<th><img style="width: 500px;" src="source/image/'.$row['image'].'" ></th>';
+        echo "<td>".$row['pro_name']."<br></td>";
+        echo "<td>".$row['price']."</td>";
+        echo '<td><input type= "number" size = "4" name = "sl['.$row['pro_id'].']" value ="'.$_SESSION['cart'][$row['pro_id']].'"></td>';
+        echo  "<td>".number_format($_SESSION['cart'][$row['pro_id']]*$row['price'],3)."VND<td>";
+        
+		echo  '<th><a class="btn btn-danger" href="index.php?page_layout=xoagiohang&id='.$row['pro_id'].'">Xóa</a></th>';
+		echo  '<th><lable>Tồn kho:  </lable>'.$row['quantity'].'</th>';
+		echo "</tr>";
+        $total+=$_SESSION['cart'][$row['pro_id']]*$row['price'];
+        $_SESSION['tong']= $total;
+       }  
+	   
+      ?>
+
+        </table>
+   <div class="pro">
+   	<?php  
+       echo "<b>TỔNG TIỀN LÀ: <font color='red'>".
+       number_format($total,3)." VND</font></b>";
+       }else{
+       	exit();
+       }
+    ?>
+  </div><br>
+   	<input type="submit" class="btn btn-danger" name="submit" value="Cập nhật số lượng">
+   	<a onclick="return Pay()"class="btn btn-primary" href="thanhtoan.php">Thanh toán ngay</a>
+   </form>
+</div>
+<?php }?>
+
+
+						
 					</div>
 				</div> <!-- end section with sidebar and main content -->
 
@@ -170,13 +211,8 @@
 			</div> <!-- .main-content -->
 		</div> <!-- #content -->
 
-	</div>
-	<div class="copyright">
-		<div class="container">
-			<p class="pull-left">Privacy policy. (&copy;) 2022</p>
-			<div class="clearfix"></div>
-		</div> <!-- .container -->
-	</div> <!-- .copyright -->
+      
+	
 
 	<!-- include js files -->
 	<script src="source/assets/dest/js/jquery.js"></script>
@@ -192,8 +228,6 @@
 	<script src="source/assets/dest/js/waypoints.min.js"></script>
 	<script src="source/assets/dest/js/wow.min.js"></script>
 	<!--customjs-->
-	<script src="source/assets/dest/js/custom2.js"></script>
-	<script src="source/js/index.js"></script>
 	
 <!-- JavaScript -->
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
@@ -218,25 +252,23 @@
 <!-- Bootstrap theme -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css"/>
 
-
-	
-
-	<div class="modal"  id="modal-add-cart">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Thêm vào giỏ hàng thành công</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">ViewCart</button>
-      </div>
-    </div>
-  </div>
-</div>
+	<script src="source/assets/dest/js/custom2.js"></script>
+	<script>
+	$(document).ready(function($) {    
+		$(window).scroll(function(){
+			if($(this).scrollTop()>150){
+			$(".header-bottom").addClass('fixNav')
+			}else{
+				$(".header-bottom").removeClass('fixNav')
+			}}
+		)
+	})
+	</script>
+	<script>
+		function Pay() {
+            return confirm("Bạn có chắc chắn muốn mua sản phẩm");
+        }
+	</script>
 </body>
 </html>
 

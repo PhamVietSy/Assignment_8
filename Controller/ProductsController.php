@@ -36,10 +36,4 @@
     count($pro1);
     count($pro2);
    
-
-
-    
-   
-    
-
 ?>
