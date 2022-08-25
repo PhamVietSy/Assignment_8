@@ -134,31 +134,7 @@
 								include './Controller/Homeproducts.php';
 								
 								?>
-								<?php  foreach($statement as $sp): ?>
-								<div class="col-sm-3">
-									<div class="single-item">
-										<div class="single-item-header">
-											<a href="chitietsp.php?id=<?php echo  $sp["pro_id"] ?>"><img src="source/image/<?=$sp['image'] ?>" alt="" height="250px"></a>
-										</div>
-										<div class="single-item-body">
-											<p class="single-item-title" style="height: 40px"><?=$sp['pro_name'] ?></p>
-											<p class="single-item-price" style="font-size: 17px; height: 30px">
-												<span  class="flash"><?=number_format($sp['price'],0)?> VNĐ</span>
-											</p>
-										</div>
-										<div class="single-item-caption">
-										<?php if($sp['quantity']>0) {?>
-											<a class="add-to-cart" href="./Controller/CartController.php?id=<?php echo  $sp["pro_id"] ?>" ><i class="fa fa-shopping-cart"></i></a>
-											<?php } else { ?>
-												<span class="btn btn-danger">Hết hàng</span>
-												<?php } ?>	
-											<a class="beta-btn primary" style="margin-bottom: 26px ; "  href="detail_product.php?id=<?php echo  $sp["pro_id"] ?>">Chi tiết <i class="fa fa-chevron-right"></i></a>
-											<div class="clearfix"></div>
-										</div>
-									</div>
-								</div>
-								<?php endforeach ?>
-							</div>
+								
 							<div class="row">
 						
 							</div>
@@ -221,21 +197,7 @@
 
 	
 
-	<div class="modal"  id="modal-add-cart">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Thêm vào giỏ hàng thành công</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">ViewCart</button>
-      </div>
-    </div>
-  </div>
+	
 </div>
 </body>
 </html>

@@ -1,12 +1,4 @@
 <?php
-
-//fetch_cart.php
-
-session_start();
-
-$total_price = 0;
-$total_item = 0;
-
 $output = '
 <div class="table-responsive" id="order_table">
  <table class="table table-bordered table-striped">
@@ -19,20 +11,28 @@ $output = '
         </tr>
 ';
 
-if(!empty($_SESSION["shopping_cart"]))
-{
- foreach($_SESSION["shopping_cart"] as $keys => $values)
- {
+
+	if(!empty($_SESSION["cart"])){
+		foreach ($_SESSION['cart'] as $id => $sl)
+		$arid[] = $id;
+		$str= implode(",", $arid);
+		$sql = "SELECT * FROM products WHERE pro_id IN ($str)";
+
+	
+		$conn = mysqli_connect("localhost", "root", "", "users");
+		$kq = mysqli_query($conn, $sql);
+		$total=0;
+		while ($row = mysqli_fetch_array($kq)) {
   $output .= '
   <tr>
-   <td>'.$values["pro_name"].'</td>
-   <td>'.$values["quantity"].'</td>
-   <td align="right">$ '.$values["price"].'</td>
-   <td align="right">$ '.number_format($values["quantity"] * $values["price"], 2).'</td>
-   <td><button name="delete" class="btn btn-danger btn-xs delete" id="'. $values["pro_id"].'">Remove</button></td>
+   <td>'.$kq["pro_name"].'</td>
+   <td>'.$kq["quantity"].'</td>
+   <td align="right">$ '.$kq["price"].'</td>
+   <td align="right">$ '.number_format($kq["quantity"] * $kq["price"], 2).'</td>
+   <td><button name="delete-cart" class="btn btn-danger btn-xs delete" id="'. $kq["pro_id"].'">Remove</button></td>
   </tr>
   ';
-  $total_price = $total_price + ($values["quantity"] * $values["price"]);
+  $total_price = $total_price + ($kq["quantity"] * $kq["price"]);
 
 
  }
@@ -56,12 +56,6 @@ else
 }
 $output .= '</table></div>';
 
-$data = array(
- 'cart_details'  => $output,
- 'total_price'  => '$' . number_format($total_price, 2),
-
-);
-
-echo json_encode($data);
+echo $output;
 
 ?>

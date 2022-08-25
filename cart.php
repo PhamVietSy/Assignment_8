@@ -115,23 +115,23 @@
 						
 					<?php
 
-if (isset($_POST['submit'])) 
-{
-	foreach($_POST['sl'] as $key => $value)
-	{
-		if ($value== 0)
-			unset($_SESSION['cart']);
-		else
-			$_SESSION['cart'][$key] = $value;
-	}
-}
-		if (isset($_SESSION['cart'])) {
-			foreach ($_SESSION['cart'] as $key => $value) 
-			{
-				$item[] = $key	;
-			}
-			$str= implode(",", $item);
-		}
+// if (isset($_POST['submit'])) 
+// {
+// 	foreach($_POST['sl'] as $key => $value)
+// 	{
+// 		if ($value== 0)
+// 			unset($_SESSION['cart']);
+// 		else
+// 			$_SESSION['cart'][$key] = $value;
+// 	}
+// }
+// 		if (isset($_SESSION['cart'])) {
+// 			foreach ($_SESSION['cart'] as $key => $value) 
+// 			{
+// 				$item[] = $key	;
+// 			}
+// 			$str= implode(",", $item);
+// 		}
 		
 		
   ?>
@@ -144,62 +144,9 @@ if (isset($_POST['submit']))
 
 <?php }else{?>
 	
-	<div class="container" style="width: 40% ;margin: 40px auto">
-   <h1>Giỏ hàng</h1>
-   <form action="" method="POST">
-   	   <table class="table table-border">
-      <tr>
-        <th>Hình ảnh </th>
-        <th>Tên Sản phẩm</th>
-        <th>Giá tiền</th>
-         <th>Số lượng</th>
-         <th>Thành tiền</th>
-         
-      </tr>
-  
-  
-   	<?php
-   	if (isset($_SESSION['cart'])) {
-   		
-   	$sql = "SELECT * FROM products WHERE pro_id in (".$str.")";
-
- 
-	   $conn = mysqli_connect("localhost", "root", "", "users");
-      $kq = mysqli_query($conn, $sql);
-      $total=0;
-      while ($row = mysqli_fetch_array($kq)) {
-      
-      		 
-        echo "<tr>";
-		echo '<th><img style="width: 500px;" src="source/image/'.$row['image'].'" ></th>';
-        echo "<td>".$row['pro_name']."<br></td>";
-        echo "<td>".$row['price']."</td>";
-        echo '<td><input type= "number" size = "4" name = "sl['.$row['pro_id'].']" value ="'.$_SESSION['cart'][$row['pro_id']].'"></td>';
-        echo  "<td>".number_format($_SESSION['cart'][$row['pro_id']]*$row['price'],3)."VND<td>";
-        
-		echo  '<th><a class="btn btn-danger" href="index.php?page_layout=xoagiohang&id='.$row['pro_id'].'">Xóa</a></th>';
-		echo  '<th><lable>Tồn kho:  </lable>'.$row['quantity'].'</th>';
-		echo "</tr>";
-        $total+=$_SESSION['cart'][$row['pro_id']]*$row['price'];
-        $_SESSION['tong']= $total;
-       }  
-	   
-      ?>
-
-        </table>
-   <div class="pro">
-   	<?php  
-       echo "<b>TỔNG TIỀN LÀ: <font color='red'>".
-       number_format($total,3)." VND</font></b>";
-       }else{
-       	exit();
-       }
-    ?>
-  </div><br>
-   	<input type="submit" class="btn btn-danger" name="submit" value="Cập nhật số lượng">
-   	<a onclick="return Pay()"class="btn btn-primary" href="thanhtoan.php">Thanh toán ngay</a>
-   </form>
-</div>
+	<?php
+		include './Controller/fetch_cart.php';
+		?>
 <?php }?>
 
 
@@ -228,6 +175,8 @@ if (isset($_POST['submit']))
 	<script src="source/assets/dest/js/waypoints.min.js"></script>
 	<script src="source/assets/dest/js/wow.min.js"></script>
 	<!--customjs-->
+	<script src="source/assets/dest/js/custom2.js"></script>
+	<script src="source/js/delete.js"></script>
 	
 <!-- JavaScript -->
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
@@ -252,23 +201,7 @@ if (isset($_POST['submit']))
 <!-- Bootstrap theme -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css"/>
 
-	<script src="source/assets/dest/js/custom2.js"></script>
-	<script>
-	$(document).ready(function($) {    
-		$(window).scroll(function(){
-			if($(this).scrollTop()>150){
-			$(".header-bottom").addClass('fixNav')
-			}else{
-				$(".header-bottom").removeClass('fixNav')
-			}}
-		)
-	})
-	</script>
-	<script>
-		function Pay() {
-            return confirm("Bạn có chắc chắn muốn mua sản phẩm");
-        }
-	</script>
+	
 </body>
 </html>
 
