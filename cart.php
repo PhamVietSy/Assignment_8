@@ -146,6 +146,7 @@
 	
 	<?php
 		include './Controller/fetch_cart.php';
+		showcart();
 		?>
 <?php }?>
 

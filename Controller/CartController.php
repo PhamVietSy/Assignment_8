@@ -68,57 +68,103 @@ function detail_product(){
 }
 
         
-        $id= $_GET['id'];
+        // $id= $_GET['id'];
       
-        if (isset($_SESSION['cart'][$id]))
-            $sl = $_SESSION['cart'][$id]+1;
-        else
-            $sl = 1;
+        // if (isset($_SESSION['cart'][$id]))
+        //     $sl = $_SESSION['cart'][$id]+1;
+        // else
+        //     $sl = 1;
 
-        $_SESSION['cart'][$id]= $sl;
+        // $_SESSION['cart'][$id]= $sl;
         
       
     //    add to cart
-        if(isset($_POST["action"]))
-        {
-         if($_POST["action"] == 'add')
-         {
-          if(isset($_SESSION["shopping_cart"]))
-          {
-           $is_available = 0;
-           foreach($_SESSION['shopping_cart'] as $keys => $values)
+       
+        //  if($_POST['add-to-cart'] )
+        //  {
+        //   if(isset($_SESSION['cart']))
+        //   {
+        //    $is_available = 0;
+        //    foreach($_SESSION['cart'] as $keys => $values)
+        //    {
+        //     if($_SESSION['cart'][$keys]['pro_id'] == $_POST['pro_id'])
+        //     {
+        //      $is_available++;
+        //      $_SESSION['cart'][$keys]['quantity'] = $_SESSION['cart'][$keys]['quantity'] + $_POST['quantity'];
+        //     }
+        //    }
+        
+        //    if($is_available == 0)
+        //    {
+        //     $item_array = array(
+        //      'pro_id' => $_POST['pro_id'], 
+        //      'pro_name' => $_POST['pro_name'],
+        //      'pro_price' => $_POST['pro_price'],
+        //      'quantity' => $_POST['quantity']
+        //     );
+        //     $_SESSION['cart'][] = $item_array;
+        //    }
+        //   }
+        //   else
+        //   {
+        //    $item_array = array(
+        //     'pro_id'  => $_POST['pro_id'],
+        //     'pro_name'  => $_POST['pro_name'],
+        //     'pro_price'  => $_POST['pro_price'],
+        //     'quantity' => $_POST['quantity']
+        //    );
+        
+        //    $_SESSION['cart'][] = $item_array;
+        //   }
+        //  }
+      
+       
+
+        // add cart 2 
+      
+        if (!isset($_SESSION['cart']))
+        $_SESSION['cart'] = [];
+
+        if (isset($_POST['add-to-cart'])&&($_POST['add-to-cart'])){
+            $is_available = 0;
+           foreach($_SESSION['cart'] as $keys => $values)
            {
-            if($_SESSION['shopping_cart'][$keys]['pro_id'] == $_POST['pro_id'])
+            if($_SESSION['cart'][$keys]['pro_id'] == $_POST['pro_id'])
             {
              $is_available++;
-             $_SESSION['shopping_cart'][$keys]['quantity'] = $_SESSION['shopping_cart'][$keys]['quantity'] + $_POST['quantity'];
+             $_SESSION['cart'][$keys]['quantity'] = $_SESSION['cart'][$keys]['quantity'] + $_POST['quantity'];
             }
            }
         
            if($is_available == 0)
            {
+            // $image = $_POST['image'];
+            // $pro_name = $_POST['pro_name'];
+            // $price = $_POST['price'];
+            // $quantity = $_POST['quantity'];
             $item_array = array(
-             'pro_id' => $_POST['pro_id'], 
-             'pro_name' => $_POST['pro_name'],
-             'pro_price' => $_POST['pro_price'],
-             'quantity' => $_POST['quantity']
-            );
-            $_SESSION['shopping_cart'][] = $item_array;
-           }
-          }
-          else
-          {
-           $item_array = array(
-            'pro_id'  => $_POST['pro_id'],
-            'pro_name'  => $_POST['pro_name'],
-            'pro_price'  => $_POST['pro_price'],
-            'quantity' => $_POST['quantity']
-           );
+                     'pro_id' => $_POST['pro_id'], 
+                     'image' => $_POST['image'],
+                     'pro_name' => $_POST['pro_name'],
+                     'price' => $_POST['price'],
+                     'quantity' => $_POST['quantity']
+                    );
+            $_SESSION['cart'][] = $item_array; 
+              }   
+            }
+            else
+            {
+             $item_array = array(
+              'pro_id'  => $_POST['pro_id'],
+              'image' => $_POST['image'],
+              'pro_name'  => $_POST['pro_name'],
+              'price'  => $_POST['price'],
+              'quantity' => $_POST['quantity']
+             );
+          
+             $_SESSION['cart'][] = $item_array;
+            }
+            
+var_dump($_SESSION['cart']);
         
-           $_SESSION['shopping_cart'][] = $item_array;
-          }
-         }
-        }
 ?>
-
-    
